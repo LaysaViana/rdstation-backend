@@ -1,4 +1,4 @@
-import Checkbox from '../../shared/Checkbox/Checkbox';
+import { Checkbox } from '../../../shared/Checkbox/Checkbox';
 
 function RecommendationType({
   onRecommendationTypeChange,
