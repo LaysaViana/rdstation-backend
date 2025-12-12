@@ -26,18 +26,31 @@ export const Header = () => {
             boxSizing: 'border-box',
           }}
         >
-          <Typography
-            variant="h5"
-            className="app-header-title"
-            sx={{
-              fontWeight: 'bold',
-              textAlign: 'left',
-              color: 'var(--text)',
-              flexShrink: 0,
-            }}
+          <Box
+            className="header-left"
+            sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
           >
-            Recomendador de Produtos RD Station
-          </Typography>
+            <img
+              src="/rd-station-logo.svg"
+              alt="logo"
+              className="header-logo"
+            />
+
+            <Box className="header-separator" />
+
+            <Typography
+              variant="h5"
+              className="app-header-title"
+              sx={{
+                fontWeight: 'bold',
+                textAlign: 'left',
+                color: 'var(--text)',
+                flexShrink: 0,
+              }}
+            >
+              Recomendador de Produtos RD Station
+            </Typography>
+          </Box>
 
           <IconButton
             onClick={toggleTheme}
@@ -45,7 +58,7 @@ export const Header = () => {
             className="header-theme-toggle"
             sx={{
               color: 'var(--text)',
-              border: '1px solid rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.15)',
             }}
           >
             {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
