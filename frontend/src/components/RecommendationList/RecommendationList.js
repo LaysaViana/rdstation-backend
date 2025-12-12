@@ -1,29 +1,17 @@
-import {
-  Box,
-  Typography,
-  Chip,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  LinearProgress,
-  Divider,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
-import { useThemeMode } from '../../context/ThemeContext';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Box, Typography, Chip, Paper, Divider } from '@mui/material';
+import RecommendationCard from '../../components/RecommendationCard/RecommendationCard';
 
 function RecommendationList({
   recommendations = [],
   mode = 'MultipleProducts',
 }) {
-  const theme = useTheme();
-  const { mode: themeMode } = useThemeMode();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const count = recommendations.length;
+  const single = mode === 'SingleProduct';
+  const title = single ? 'Produto Recomendado' : 'Recomendações Encontradas';
 
-  if (!recommendations.length) {
+  if (!count) {
     return (
       <Paper
         elevation={0}
@@ -32,18 +20,14 @@ function RecommendationList({
           p: { xs: 2, md: 3 },
           textAlign: 'center',
           border: '1px solid',
-          borderColor: theme.palette.divider,
-          bgcolor:
-            themeMode === 'dark'
-              ? theme.palette.background.paper
-              : theme.palette.background.paper,
+          borderColor: 'var(--panel-border)',
+          bgcolor: 'transparent',
           borderRadius: 2,
         }}
       >
-        <Typography color={theme.palette.text.secondary}>
+        <Typography color="text.secondary">
           Nenhuma recomendação encontrada.
         </Typography>
-
         <Typography variant="body2" sx={{ mt: 1 }}>
           Tente ajustar suas preferências e clique em{' '}
           <strong>“Obter recomendação”</strong>.
@@ -54,214 +38,117 @@ function RecommendationList({
 
   return (
     <Box sx={{ mt: 3 }}>
-      <Divider sx={{ mb: 3 }} />
+      <div className="w-full mx-auto max-w-7xl px-4 md:px-6">
+        <Divider sx={{ mb: 3 }} />
 
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          mb: 2,
-          flexWrap: 'wrap',
-          gap: 1,
-        }}
-      >
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: 600, color: theme.palette.text.primary }}
-        >
-          {mode === 'SingleProduct'
-            ? 'Produto Recomendado'
-            : 'Recomendações Encontradas'}
-        </Typography>
-        <Chip
-          label={recommendations.length}
-          color="primary"
-          variant="outlined"
+        {/* HEADER */}
+        <Box
           sx={{
-            fontWeight: 600,
-            bgcolor:
-              themeMode === 'dark'
-                ? 'rgba(0,115,230,0.2)'
-                : theme.palette.primary.light,
-            color: theme.palette.primary.main,
-          }}
-        />
-      </Box>
-
-      {mode === 'SingleProduct' ? (
-        <Paper
-          elevation={2}
-          sx={{
-            p: { xs: 2, md: 3 },
-            borderRadius: 3,
-            transition: '0.3s',
-            bgcolor:
-              themeMode === 'dark'
-                ? 'rgba(255,255,255,0.05)'
-                : theme.palette.background.paper,
-            '&:hover': {
-              transform: 'translateY(-3px)',
-              boxShadow: theme.shadows[6],
-            },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 1,
+            mb: 2,
           }}
         >
-          <Typography variant="h6" color="primary" sx={{ mb: 1 }}>
-            {recommendations[0].name}
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 'bold', color: 'text.primary' }}
+          >
+            {title}
           </Typography>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            Categoria:{' '}
-            <Box
-              component="span"
-              sx={{ fontWeight: 600, color: 'primary.main' }}
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.secondary', fontWeight: 500 }}
             >
-              {recommendations[0].category}
-            </Box>
-          </Typography>
+              Quantidade:
+            </Typography>
 
-          <Typography variant="body2" sx={{ mb: 1 }}>
-            <strong>Preferências:</strong>{' '}
-            {recommendations[0].preferences?.join(', ') || '—'}
-          </Typography>
-          <Typography variant="body2">
-            <strong>Funcionalidades:</strong>{' '}
-            {recommendations[0].features?.join(', ') || '—'}
-          </Typography>
-
-          {recommendations[0].score !== undefined && (
-            <Box sx={{ mt: 3 }}>
-              <Box
-                sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}
-              >
-                <Typography
-                  variant="body2"
-                  color={theme.palette.text.secondary}
-                >
-                  Compatibilidade
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ fontWeight: 600, color: 'primary.main' }}
-                >
-                  {recommendations[0].score}%
-                </Typography>
-              </Box>
-              <LinearProgress
-                variant="determinate"
-                value={Math.min(recommendations[0].score, 100)}
-                sx={{
-                  height: 8,
-                  borderRadius: 5,
-                  bgcolor:
-                    themeMode === 'dark'
-                      ? 'rgba(255,255,255,0.1)'
-                      : theme.palette.grey[200],
-                  '& .MuiLinearProgress-bar': {
-                    bgcolor: theme.palette.primary.main,
-                  },
-                }}
-              />
-            </Box>
-          )}
-        </Paper>
-      ) : (
-        <Paper
-          elevation={2}
-          sx={{
-            borderRadius: 3,
-            overflowX: 'auto',
-            bgcolor:
-              themeMode === 'dark'
-                ? 'rgba(255,255,255,0.05)'
-                : theme.palette.background.paper,
-          }}
-        >
-          <Table size={isMobile ? 'small' : 'medium'}>
-            <TableHead
+            <Chip
+              label={count}
               sx={{
-                bgcolor:
-                  themeMode === 'dark'
-                    ? 'rgba(0,115,230,0.2)'
-                    : theme.palette.primary[50],
+                width: 56,
+                height: 56,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 700,
+                fontSize: '1.125rem',
+                bgcolor: 'rgba(255,255,255,0.02)',
+                border: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? '1px solid rgba(255,255,255,0.15)'
+                    : '1px solid rgba(0,0,0,0.25)',
               }}
-            >
-              <TableRow>
-                <TableCell
-                  sx={{ fontWeight: 600, color: theme.palette.text.primary }}
-                >
-                  Produto
-                </TableCell>
-                <TableCell
-                  sx={{ fontWeight: 600, color: theme.palette.text.primary }}
-                >
-                  Categoria
-                </TableCell>
-                <TableCell
-                  sx={{ fontWeight: 600, color: theme.palette.text.primary }}
-                >
-                  Preferências
-                </TableCell>
-                <TableCell
-                  sx={{ fontWeight: 600, color: theme.palette.text.primary }}
-                >
-                  Funcionalidades
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ fontWeight: 600, color: theme.palette.text.primary }}
-                >
-                  Compatibilidade
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {recommendations.map((r, index) => (
-                <TableRow
-                  key={r.id || index}
-                  hover
-                  sx={{
-                    '&:hover': {
-                      bgcolor:
-                        themeMode === 'dark'
-                          ? 'rgba(0,115,230,0.1)'
-                          : theme.palette.primary[50],
-                    },
-                  }}
-                >
-                  <TableCell sx={{ color: theme.palette.text.primary }}>
-                    {r.name}
-                  </TableCell>
-                  <TableCell sx={{ color: theme.palette.text.primary }}>
-                    {r.category}
-                  </TableCell>
-                  <TableCell sx={{ color: theme.palette.text.secondary }}>
-                    {r.preferences?.slice(0, 3).join(', ') || '—'}
-                  </TableCell>
-                  <TableCell sx={{ color: theme.palette.text.secondary }}>
-                    {r.features?.slice(0, 3).join(', ') || '—'}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Chip
-                      label={`${r.score || 0}%`}
-                      size="small"
-                      sx={{
-                        bgcolor:
-                          themeMode === 'dark'
-                            ? 'rgba(0,115,230,0.15)'
-                            : theme.palette.primary[100],
-                        color: theme.palette.primary.main,
-                        fontWeight: 600,
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
-      )}
+            />
+          </Box>
+        </Box>
+
+        {/* SINGLE PRODUCT */}
+        {single ? (
+          <Paper
+            elevation={0}
+            className="glass-card"
+            sx={{
+              p: { xs: 2, md: 3 },
+              borderRadius: 3,
+              transition: 'transform .25s ease',
+              '&:hover': { transform: 'translateY(-4px)' },
+              bgcolor: 'transparent',
+              width: '100%',
+              maxWidth: '700px',
+              mx: 'auto',
+              boxSizing: 'border-box',
+            }}
+          >
+            <RecommendationCard item={recommendations[0]} />
+          </Paper>
+        ) : (
+          /* MULTIPLE PRODUCTS GRID */
+          <Box
+            sx={{
+              mt: 2,
+              borderRadius: 3,
+              display: 'grid',
+              gap: 2,
+              width: '100%',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              boxSizing: 'border-box',
+            }}
+          >
+            {recommendations.map((r, idx) => (
+              <Paper
+                key={r.id ?? idx}
+                elevation={0}
+                className="glass-card"
+                sx={{
+                  p: { xs: 2, md: 3 },
+                  borderRadius: 3,
+                  transition: 'transform .25s ease',
+                  '&:hover': { transform: 'translateY(-4px)' },
+                  bgcolor: 'transparent',
+                  width: '100%',
+                  minWidth: 0,
+                  boxSizing: 'border-box',
+                }}
+              >
+                <RecommendationCard item={r} rank={idx + 1} />
+              </Paper>
+            ))}
+          </Box>
+        )}
+      </div>
     </Box>
   );
 }
 
-export default RecommendationList;
+RecommendationList.propTypes = {
+  recommendations: PropTypes.arrayOf(PropTypes.object),
+  mode: PropTypes.oneOf(['SingleProduct', 'MultipleProducts']),
+};
+
+export default React.memo(RecommendationList);
