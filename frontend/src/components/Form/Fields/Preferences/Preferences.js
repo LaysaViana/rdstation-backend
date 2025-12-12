@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Typography, Checkbox } from '@mui/material';
-import { handleEnterOrSpace } from '../../../utils/keyHandlers';
+import { Box, Typography } from '@mui/material';
+import { handleEnterOrSpace } from '../../../../utils/keyHandlers';
+import { Checkbox } from '../../../shared/Checkbox/Checkbox';
 
 function Preferences({
   preferences,
@@ -68,6 +69,7 @@ function Preferences({
             }}
           >
             <Checkbox
+              id={`feat-${index}`}
               checked={checked}
               onChange={() => handlePreferenceChange(preference)}
               className="preference-checkbox"
