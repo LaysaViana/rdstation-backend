@@ -1,19 +1,27 @@
-import { Grid, Box, Typography, Button, useTheme } from '@mui/material';
+import { useState } from 'react';
+import { Box, Typography } from '@mui/material';
 import { Preferences, Features, RecommendationType } from './Fields';
 import useProducts from '../../hooks/useProducts';
 import useForm from '../../hooks/useForm';
+import SubmitButton from '../../components/Form/SubmitButton/SubmitButton';
 
-function Form({ onFormSubmit }) {
-  const theme = useTheme();
+export default function Form({ onFormSubmit }) {
   const { preferences, features } = useProducts();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { formData, handleChange } = useForm({
     selectedPreferences: [],
     selectedFeatures: [],
-    selectedRecommendationType: '', // começar vazio para forçar seleção
+    selectedRecommendationType: '',
   });
 
-  const handleSubmit = (e) => {
+  const MIN_SPINNER_MS = 500;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const start = Date.now();
+    setIsSubmitting(true);
+
     const formattedData = {
       selectedPreferences: formData.selectedPreferences,
       selectedFeatures: formData.selectedFeatures,
@@ -24,85 +32,102 @@ function Form({ onFormSubmit }) {
           ? 'SingleProduct'
           : null,
     };
-    if (onFormSubmit) onFormSubmit(formattedData);
+
+    try {
+      if (onFormSubmit) {
+        await Promise.resolve(onFormSubmit(formattedData));
+      }
+    } finally {
+      const elapsed = Date.now() - start;
+      const remaining = MIN_SPINNER_MS - elapsed;
+      if (remaining > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+      }
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 3,
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.text.primary,
-        p: { xs: 2, sm: 3 },
-        borderRadius: 2,
-        boxShadow:
-          theme.palette.mode === 'light'
-            ? '0 4px 12px rgba(0, 0, 0, 0.08)'
-            : '0 4px 12px rgba(0, 0, 0, 0.4)',
-      }}
-    >
-      <Typography
-        variant="h6"
-        sx={{ color: theme.palette.primary.main, mb: 1, fontWeight: 'bold' }}
-      >
-        Escolha suas preferências
-      </Typography>
+    <Box component="form" onSubmit={handleSubmit} className="w-full">
+      <div className="w-full mx-auto max-w-7xl px-4 md:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div className="glass-card inner h-full">
+            <Typography
+              className="text-muted"
+              variant="h6"
+              sx={{ fontWeight: 'bold', mb: 2 }}
+            >
+              Preferências
+            </Typography>
 
-      <Grid container spacing={12}>
-        <Grid item xs={12} md={6}>
-          <Preferences
-            preferences={preferences}
-            onPreferenceChange={(selected) =>
-              handleChange('selectedPreferences', selected)
-            }
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Features
-            features={features}
-            onFeatureChange={(selected) =>
-              handleChange('selectedFeatures', selected)
-            }
-          />
-        </Grid>
-      </Grid>
+            <div className="space-y-2">
+              <Preferences
+                className=""
+                preferences={preferences}
+                selectedPreferences={formData.selectedPreferences}
+                onPreferenceChange={(selected) =>
+                  handleChange('selectedPreferences', selected)
+                }
+              />
+            </div>
+          </div>
 
-      <RecommendationType
-        onRecommendationTypeChange={(selected) =>
-          handleChange('selectedRecommendationType', selected)
-        }
-      />
+          <div className="glass-card inner h-full">
+            <Typography
+              className="text-muted"
+              variant="h6"
+              sx={{ fontWeight: 'bold', mb: 2 }}
+            >
+              Funcionalidades
+            </Typography>
 
-      <Box sx={{ textAlign: 'center', mt: 2 }}>
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          color="secondary"
-          sx={{
-            px: { xs: 3, md: 5 },
-            py: 1.5,
-            fontWeight: 600,
-            borderRadius: 2,
-            color: theme.palette.primary.contrastText,
-            backgroundColor: theme.palette.primary.main,
-            '&:hover': {
-              backgroundColor:
-                theme.palette.mode === 'light'
-                  ? theme.palette.primary.dark
-                  : theme.palette.primary.light,
-            },
-          }}
-        >
-          Obter recomendação
-        </Button>
-      </Box>
+            <div className="space-y-2">
+              <Features
+                className=""
+                features={features}
+                selectedFeatures={formData.selectedFeatures}
+                onFeatureChange={(selected) =>
+                  handleChange('selectedFeatures', selected)
+                }
+              />
+            </div>
+          </div>
+
+          <div className="glass-card inner h-full flex items-center justify-center">
+            <div className="text-center px-2">
+              <Typography
+                variant="body2"
+                sx={{ color: 'var(--muted)', lineHeight: 1.5 }}
+              >
+                Selecione suas preferências e funcionalidades, selecione o tipo
+                de recomendação e clique em <strong>Obter Recomendação</strong>
+              </Typography>
+            </div>
+          </div>
+
+          <div className="glass-card inner h-full">
+            <RecommendationType
+              className=""
+              value={formData.selectedRecommendationType}
+              onRecommendationTypeChange={(selected) =>
+                handleChange('selectedRecommendationType', selected)
+              }
+            />
+          </div>
+
+          <div className="md:col-span-2 flex justify-center mt-6">
+            <div className="w-full max-w-xs">
+              <SubmitButton
+                type="submit"
+                loading={isSubmitting}
+                className="w-full"
+              >
+                ⚡ Obter Recomendação
+              </SubmitButton>
+            </div>
+          </div>
+        </div>
+      </div>
     </Box>
   );
 }
-
-export default Form;
