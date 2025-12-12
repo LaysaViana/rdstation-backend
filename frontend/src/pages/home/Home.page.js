@@ -112,7 +112,11 @@ export const HomePage = () => {
     <Box className="app-bg w-full min-h-dvh">
       <div className="page-inner w-full mx-auto max-w-7xl px-4 md:px-6 py-10">
         <div className="max-w-4xl mx-auto mb-8 text-muted">
-          <Typography variant="body1" component="p" sx={{ lineHeight: 1.7 }}>
+          <Typography
+            variant="body1"
+            component="p"
+            sx={{ lineHeight: 1.7, textAlign: 'center' }}
+          >
             Bem-vindo ao Recomendador de Produtos RD Station. Aqui você pode
             encontrar uma variedade de produtos da RD Station, cada um projetado
             para atender às necessidades específicas do seu negócio. De CRM a
