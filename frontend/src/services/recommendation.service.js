@@ -17,7 +17,7 @@ const safeArray = (v) => (Array.isArray(v) ? v : []);
 export function rankWithTieBreak(scored = []) {
   return scored.slice().sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
-    // desempata favorecendo quem tinha maior _origIndex
+    // desempata favorecendo quem tem o maior _origIndex
     return b._origIndex - a._origIndex;
   });
 }
