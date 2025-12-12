@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { Preferences, Features, RecommendationType } from './Fields';
+import Preferences from './Fields/Preferences/Preferences';
+import Features from './Fields/Features/Features';
+import RecommendationType from './Fields/RecommendationType/RecommendationType';
 import useProducts from '../../hooks/useProducts';
 import useForm from '../../hooks/useForm';
 import SubmitButton from '../../components/Form/SubmitButton/SubmitButton';
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 
 export default function Form({ onFormSubmit }) {
   const { preferences, features } = useProducts();
@@ -51,7 +54,7 @@ export default function Form({ onFormSubmit }) {
     <Box component="form" onSubmit={handleSubmit} className="w-full">
       <div className="w-full mx-auto max-w-7xl px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          <div className="glass-card inner h-full">
+          <div className="glass-card inner h-full card-preferencias">
             <Typography
               className="text-muted"
               variant="h6"
@@ -60,7 +63,7 @@ export default function Form({ onFormSubmit }) {
               Preferências
             </Typography>
 
-            <div className="space-y-2">
+            <div className="space-y-2" data-testid="prefs">
               <Preferences
                 className=""
                 preferences={preferences}
@@ -72,7 +75,7 @@ export default function Form({ onFormSubmit }) {
             </div>
           </div>
 
-          <div className="glass-card inner h-full">
+          <div className="glass-card inner h-full card-funcionalidades">
             <Typography
               className="text-muted"
               variant="h6"
@@ -81,7 +84,7 @@ export default function Form({ onFormSubmit }) {
               Funcionalidades
             </Typography>
 
-            <div className="space-y-2">
+            <div className="space-y-2" data-testid="features">
               <Features
                 className=""
                 features={features}
@@ -93,19 +96,34 @@ export default function Form({ onFormSubmit }) {
             </div>
           </div>
 
-          <div className="glass-card inner h-full flex items-center justify-center">
-            <div className="text-center px-2">
+          <div className="glass-card inner h-full flex items-center justify-center card-info testimonial-box">
+            <div className="text-center px-4">
               <Typography
                 variant="body2"
+                className="testimonial-text"
                 sx={{ color: 'var(--muted)', lineHeight: 1.5 }}
               >
+                <FormatQuoteIcon
+                  color="inherit"
+                  sx={{
+                    fontSize: 32,
+                    verticalAlign: 'middle',
+                    mr: 1,
+                    opacity: 0.35,
+                    color: 'var(--muted)',
+                    '& path': { fill: 'currentColor' },
+                  }}
+                />
                 Selecione suas preferências e funcionalidades, selecione o tipo
-                de recomendação e clique em <strong>Obter Recomendação</strong>
+                de recomendação e clique em <strong>Obter Recomendação</strong>.
               </Typography>
             </div>
           </div>
 
-          <div className="glass-card inner h-full">
+          <div
+            className="glass-card inner h-full card-recomendacao"
+            data-testid="rtype"
+          >
             <RecommendationType
               className=""
               value={formData.selectedRecommendationType}
