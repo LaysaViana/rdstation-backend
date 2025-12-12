@@ -2,7 +2,12 @@ import { Box, Typography, Link, IconButton } from '@mui/material';
 
 export const Footer = () => {
   return (
-    <Box component="footer" className="app-footer" sx={{ mt: 6 }}>
+    <Box
+      component="footer"
+      role="contentinfo"
+      className="app-footer"
+      sx={{ mt: 6 }}
+    >
       <div className="w-full mx-auto max-w-7xl px-4 md:px-6">
         <Box
           sx={{
