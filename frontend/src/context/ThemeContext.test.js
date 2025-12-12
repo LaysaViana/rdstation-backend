@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ThemeModeProvider, useThemeMode } from '../context/ThemeContext';
+import { ThemeProvider, useThemeMode } from './ThemeContext';
 
 // Um componente de teste que consome o contexto
 const TestComponent = () => {
@@ -15,9 +15,9 @@ const TestComponent = () => {
 describe('ThemeModeProvider', () => {
   test('inicializa com modo light', () => {
     render(
-      <ThemeModeProvider>
+      <ThemeProvider>
         <TestComponent />
-      </ThemeModeProvider>
+      </ThemeProvider>
     );
 
     const modeSpan = screen.getByTestId('mode');
@@ -26,9 +26,9 @@ describe('ThemeModeProvider', () => {
 
   test('toggleTheme alterna entre light e dark', () => {
     render(
-      <ThemeModeProvider>
+      <ThemeProvider>
         <TestComponent />
-      </ThemeModeProvider>
+      </ThemeProvider>
     );
 
     const modeSpan = screen.getByTestId('mode');
