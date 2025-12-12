@@ -1,17 +1,32 @@
 import { useState } from 'react';
-import { Box, Typography, Checkbox } from '@mui/material';
-import { handleEnterOrSpace } from '../../../utils/keyHandlers';
-
+import { Box, Typography } from '@mui/material';
+import { handleEnterOrSpace } from '../../../../utils/keyHandlers';
+import { Checkbox } from '../../../shared/Checkbox/Checkbox';
+import PropTypes from 'prop-types';
 function Features({ features, selectedFeatures = [], onFeatureChange }) {
-  const [currentFeatures, setCurrentFeatures] = useState(selectedFeatures);
+  const [currentFeatures, setCurrentFeatures] = useState(() =>
+    Array.isArray(selectedFeatures) ? selectedFeatures.slice() : []
+  );
 
-  const handleFeatureChange = (feature) => {
-    const updatedFeatures = currentFeatures.includes(feature)
-      ? currentFeatures.filter((pref) => pref !== feature)
-      : [...currentFeatures, feature];
+  const handleFeatureChange = (feature, isChecked) => {
+    setCurrentFeatures((prev) => {
+      let updated;
+      if (typeof isChecked === 'boolean') {
+        updated = isChecked
+          ? prev.includes(feature)
+            ? prev
+            : [...prev, feature]
+          : prev.filter((p) => p !== feature);
+      } else {
+        // toggle
+        updated = prev.includes(feature)
+          ? prev.filter((p) => p !== feature)
+          : [...prev, feature];
+      }
 
-    setCurrentFeatures(updatedFeatures);
-    if (typeof onFeatureChange === 'function') onFeatureChange(updatedFeatures);
+      if (typeof onFeatureChange === 'function') onFeatureChange(updated);
+      return updated;
+    });
   };
 
   return (
@@ -44,7 +59,7 @@ function Features({ features, selectedFeatures = [], onFeatureChange }) {
 
         return (
           <Box
-            key={index}
+            key={typeof feature === 'string' ? feature : index}
             role="button"
             tabIndex={0}
             onKeyDown={(e) =>
@@ -71,10 +86,13 @@ function Features({ features, selectedFeatures = [], onFeatureChange }) {
             }}
           >
             <Checkbox
+              id={`feat-${index}`}
               checked={checked}
-              onChange={() => handleFeatureChange(feature)}
-              className="feature-checkbox"
+              onChange={(e) => handleFeatureChange(feature, e.target.checked)}
+              inputClassName="checkbox"
+              className="checkbox-root"
               size="small"
+              aria-label={String(feature)}
             />
 
             <Typography
@@ -88,5 +106,15 @@ function Features({ features, selectedFeatures = [], onFeatureChange }) {
     </Box>
   );
 }
+
+Features.propTypes = {
+  features: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
+  selectedFeatures: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ),
+  onFeatureChange: PropTypes.func,
+};
 
 export default Features;
