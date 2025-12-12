@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Checkbox } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useThemeMode } from '../../../context/ThemeContext';
+import { handleEnterOrSpace } from '../../../utils/keyHandlers';
 
 function Preferences({
   preferences,
@@ -10,8 +9,6 @@ function Preferences({
 }) {
   const [currentPreferences, setCurrentPreferences] =
     useState(selectedPreferences);
-  const theme = useTheme();
-  const { mode } = useThemeMode();
 
   const handlePreferenceChange = (preference) => {
     const updatedPreferences = currentPreferences.includes(preference)
@@ -19,82 +16,75 @@ function Preferences({
       : [...currentPreferences, preference];
 
     setCurrentPreferences(updatedPreferences);
-    onPreferenceChange(updatedPreferences);
+    if (typeof onPreferenceChange === 'function')
+      onPreferenceChange(updatedPreferences);
   };
-
-  const backgroundColor =
-    mode === 'dark'
-      ? theme.palette.background.paper
-      : theme.palette.background.paper;
-
-  const borderColor =
-    mode === 'dark'
-      ? theme.palette.secondary.main + '33'
-      : theme.palette.primary.main + '22';
 
   return (
     <Box
+      component="section"
+      className="preferences-panel"
       sx={{
-        mb: 4,
-        backgroundColor,
-        borderRadius: 2,
-        border: `1px solid ${borderColor}`,
-        p: 3,
-        boxShadow:
-          mode === 'dark'
-            ? '0 2px 8px rgba(0, 0, 0, 0.4)'
-            : '0 2px 8px rgba(0, 0, 0, 0.08)',
-        transition: 'background-color 0.3s ease, border-color 0.3s ease',
+        mb: { xs: 2, md: 4 },
+        p: { xs: 2, md: 3 },
+        borderRadius: 'var(--radius-lg)',
+        transition: 'all .3s ease',
       }}
     >
       <Typography
         variant="h6"
+        className="text-muted"
         sx={{
-          mb: 2,
-          fontWeight: 'bold',
-          color: theme.palette.text.primary,
+          mb: { xs: 1.5, md: 2 },
+          fontSize: { xs: '1rem', md: '1.15rem' },
+          fontWeight: 600,
         }}
       >
-        Preferências:
+        Selecione suas preferências:
       </Typography>
 
-      {preferences.map((preference, index) => (
-        <Box
-          key={index}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            mb: 1.5,
-            gap: 1,
-            borderRadius: 1,
-            cursor: 'pointer',
-            p: 0.8,
-            '&:hover': {
-              backgroundColor:
-                mode === 'light'
-                  ? theme.palette.action.hover
-                  : theme.palette.action.selected,
-            },
-            transition: 'background-color 0.2s ease',
-          }}
-          onClick={() => handlePreferenceChange(preference)}
-        >
-          <Checkbox
-            checked={currentPreferences.includes(preference)}
-            onChange={() => handlePreferenceChange(preference)}
-            sx={{
-              color: theme.palette.primary.main,
-              '&.Mui-checked': {
-                color: theme.palette.primary.main,
-              },
-            }}
-          />
+      {preferences.map((preference, index) => {
+        const checked = currentPreferences.includes(preference);
 
-          <Typography sx={{ color: theme.palette.text.secondary }}>
-            {preference}
-          </Typography>
-        </Box>
-      ))}
+        return (
+          <Box
+            key={index}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) =>
+              handleEnterOrSpace(e, () => handlePreferenceChange(preference))
+            }
+            onClick={() => handlePreferenceChange(preference)}
+            className={`preference-item ${checked ? 'is-checked' : ''}`}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mb: 0.3,
+              gap: 1,
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'background-color .2s ease',
+              outline: 'none',
+            }}
+          >
+            <Checkbox
+              checked={checked}
+              onChange={() => handlePreferenceChange(preference)}
+              className="preference-checkbox"
+              size="small"
+            />
+
+            <Typography
+              className="text-muted"
+              sx={{
+                fontSize: { xs: '0.85rem', md: '1rem' },
+              }}
+            >
+              {preference}
+            </Typography>
+          </Box>
+        );
+      })}
     </Box>
   );
 }
