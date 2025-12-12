@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { Box, Typography, Checkbox, FormControlLabel } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useThemeMode } from '../../../context/ThemeContext';
+import { useState } from 'react';
+import { Box, Typography, Checkbox } from '@mui/material';
+import { handleEnterOrSpace } from '../../../utils/keyHandlers';
 
 function Features({ features, selectedFeatures = [], onFeatureChange }) {
   const [currentFeatures, setCurrentFeatures] = useState(selectedFeatures);
-  const theme = useTheme();
-  const { mode } = useThemeMode();
 
   const handleFeatureChange = (feature) => {
     const updatedFeatures = currentFeatures.includes(feature)
@@ -14,72 +11,80 @@ function Features({ features, selectedFeatures = [], onFeatureChange }) {
       : [...currentFeatures, feature];
 
     setCurrentFeatures(updatedFeatures);
-    onFeatureChange(updatedFeatures);
+    if (typeof onFeatureChange === 'function') onFeatureChange(updatedFeatures);
   };
-
-  const backgroundColor = theme.palette.background.paper;
-  const borderColor =
-    mode === 'dark'
-      ? theme.palette.secondary.main + '33'
-      : theme.palette.primary.main + '22';
 
   return (
     <Box
+      component="section"
+      className="features-panel"
       sx={{
-        mb: 4,
-        backgroundColor,
-        borderRadius: 2,
-        border: `1px solid ${borderColor}`,
-        p: 3,
-        boxShadow:
-          mode === 'dark'
-            ? '0 2px 8px rgba(0, 0, 0, 0.4)'
-            : '0 2px 8px rgba(0, 0, 0, 0.08)',
-        transition: 'background-color 0.3s ease, border-color 0.3s ease',
+        mb: { xs: 2, md: 4 },
+        p: { xs: 2, md: 3 },
+        borderRadius: 'var(--radius-lg)',
+        transition: 'all .3s ease',
       }}
     >
       <Typography
         variant="h6"
+        component="h3"
+        className="text-muted"
         sx={{
-          mb: 2,
-          fontWeight: 'bold',
-          color: theme.palette.text.primary,
+          mb: { xs: 1.5, md: 2 },
+          fontSize: { xs: '1rem', md: '1.15rem' },
+          fontWeight: 600,
+          color: 'var(--muted)',
         }}
       >
-        Funcionalidades:
+        Selecione suas funcionalidades:
       </Typography>
 
-      {features.map((feature, index) => (
-        <FormControlLabel
-          key={index}
-          control={
+      {features.map((feature, index) => {
+        const checked = currentFeatures.includes(feature);
+
+        return (
+          <Box
+            key={index}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) =>
+              handleEnterOrSpace(e, () => handleFeatureChange(feature))
+            }
+            onClick={() => handleFeatureChange(feature)}
+            className={`feature-item ${checked ? 'is-checked' : ''}`}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mb: 0.3,
+              gap: 1,
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'background-color .2s ease',
+              outline: 'none',
+              color: 'var(--muted)',
+              '&:hover': {
+                backgroundColor: 'var(--feature-hover-bg-light)',
+                '@media (prefers-reduced-motion: reduce)': {
+                  transition: 'none',
+                },
+              },
+            }}
+          >
             <Checkbox
-              checked={currentFeatures.includes(feature)}
+              checked={checked}
               onChange={() => handleFeatureChange(feature)}
-              sx={{
-                color: theme.palette.primary.main,
-                '&.Mui-checked': { color: theme.palette.primary.main },
-              }}
+              className="feature-checkbox"
+              size="small"
             />
-          }
-          label={feature}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            mb: 1.5,
-            borderRadius: 1,
-            cursor: 'pointer',
-            p: 0.8,
-            '&:hover': {
-              backgroundColor:
-                mode === 'light'
-                  ? theme.palette.action.hover
-                  : theme.palette.action.selected,
-            },
-            transition: 'background-color 0.2s ease',
-          }}
-        />
-      ))}
+
+            <Typography
+              sx={{ fontSize: { xs: '0.85rem', md: '1rem' }, color: 'inherit' }}
+            >
+              {feature}
+            </Typography>
+          </Box>
+        );
+      })}
     </Box>
   );
 }
