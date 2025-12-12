@@ -1,28 +1,37 @@
 // src/shared/Checkbox.jsx
-import React from 'react';
+import React, { forwardRef } from 'react';
+import clsx from 'clsx';
 
-function Checkbox({
-  type = 'checkbox',
-  checked,
-  onChange,
-  className = '',
-  ...props
-}) {
+export const Checkbox = forwardRef(function Checkbox(
+  {
+    id,
+    name,
+    checked = false,
+    onChange,
+    disabled = false,
+    className = '',
+    inputClassName = '',
+    ...props
+  },
+  ref
+) {
   return (
-    <input
-      {...props}
-      type={type}
-      checked={checked}
-      onChange={onChange}
-      style={{ accentColor: 'var(--accent-1)' }}
-      className={`
-    ${type === 'radio' ? 'form-radio' : 'form-checkbox'}
-    h-4 w-4
-    cursor-pointer
-    ${className}
-  `}
-    />
+    <label
+      htmlFor={id}
+      className={clsx('checkbox-root', className, { 'is-disabled': disabled })}
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+    >
+      <input
+        id={id}
+        name={name}
+        ref={ref}
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        className={clsx('checkbox', inputClassName)}
+        {...props}
+      />
+    </label>
   );
-}
-
-export default Checkbox;
+});
