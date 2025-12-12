@@ -1,118 +1,26 @@
+// src/theme.js
 import { createTheme } from '@mui/material/styles';
 
-// ================== THEME CLARO ==================
 export const lightTheme = createTheme({
   palette: {
     mode: 'light',
-    primary: {
-      main: '#0052CC',
-      contrastText: '#ffffff',
-    },
-    secondary: {
-      main: '#1d3557',
-    },
-    background: {
-      default: '#F4F6F8',
-      paper: '#FFFFFF',
-    },
-    text: {
-      primary: '#1E293B',
-      secondary: '#4B5563',
-    },
+    primary: { main: '#0175ff', contrastText: '#fff' },
+    secondary: { main: '#ff0078' },
+    background: { default: '#f5f7fb', paper: '#ffffff' },
+    text: { primary: '#0f1724', secondary: 'rgba(15,23,36,0.68)' },
   },
-  typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h2: { fontWeight: 700, fontSize: '2rem' },
-    h5: { fontWeight: 600 },
-    body1: { fontSize: '1rem', lineHeight: 1.7 },
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-          borderRadius: 10,
-          padding: '10px 22px',
-          fontWeight: 600,
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-        },
-      },
-    },
-    MuiCheckbox: {
-      styleOverrides: {
-        root: {
-          color: '#0073E6',
-          '&.Mui-checked': {
-            color: '#0052CC',
-          },
-        },
-      },
-    },
-  },
+  shape: { borderRadius: 14 },
+  typography: { fontFamily: 'Inter, Roboto, Arial, sans-serif' },
 });
 
-// ================== THEME ESCURO ==================
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-    primary: {
-      main: '#0073E6',
-      contrastText: '#ffffff',
-    },
-    secondary: {
-      main: '#0052CC',
-    },
-    background: {
-      default: '#0B0C10',
-      paper: '#0B0C10',
-    },
-    text: {
-      primary: '#E3F2FD',
-      secondary: '#AAB4BE',
-    },
+    primary: { main: '#12e0ff', contrastText: '#041222' },
+    secondary: { main: '#ff2fa3' },
+    background: { default: '#05040b', paper: '#0b0f17' },
+    text: { primary: '#e6f6ff', secondary: 'rgba(255,255,255,0.65)' },
   },
-  typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h2: { fontWeight: 700, fontSize: '2rem' },
-    h5: { fontWeight: 600 },
-    body1: { fontSize: '1rem', lineHeight: 1.7 },
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-          borderRadius: 10,
-          padding: '10px 22px',
-          fontWeight: 600,
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          backgroundColor: '#121417',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
-        },
-      },
-    },
-    MuiCheckbox: {
-      styleOverrides: {
-        root: {
-          color: '#0073E6',
-          '&.Mui-checked': {
-            color: '#66B2FF',
-          },
-        },
-      },
-    },
-  },
+  shape: { borderRadius: 14 },
+  typography: { fontFamily: 'Inter, Roboto, Arial, sans-serif' },
 });

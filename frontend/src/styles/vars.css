@@ -11,6 +11,12 @@
   --panel-bg: rgba(255,255,255,0.03);
   --panel-border: rgba(255,255,255,0.06);
 
+  --global-border: #afd9e0;
+  --global-border-card1: #00f2c9;
+  --global-border-card2: #00ade2;
+  --global-border-card3: #d97706;
+  --global-border-card4:#afd9e0;
+
   --muted: #e6f6ff;
   --text: #e6f6ff;
 
@@ -72,7 +78,7 @@
 
 /* ========== Light theme  ========== */
 :root[data-theme="light"] {
- --bg: #e7e3e2;
+ --bg: #f1f3f5;
   --bg2: #FFFF;
 
   --accent-1: #0175ff;
