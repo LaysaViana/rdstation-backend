@@ -92,7 +92,7 @@ function RecommendationList({
         {single ? (
           <Paper
             elevation={0}
-            className="glass-card"
+            className={`glass-card card-color-${1}`}
             sx={{
               p: { xs: 2, md: 3 },
               borderRadius: 3,
@@ -116,7 +116,10 @@ function RecommendationList({
               display: 'grid',
               gap: 2,
               width: '100%',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gridTemplateColumns: {
+                xs: 'repeat(auto-fit, minmax(260px, 1fr))',
+                sm: 'repeat(auto-fit, minmax(300px, 1fr))',
+              },
               boxSizing: 'border-box',
             }}
           >
@@ -124,7 +127,7 @@ function RecommendationList({
               <Paper
                 key={r.id ?? idx}
                 elevation={0}
-                className="glass-card"
+                className={`glass-card card-color-${(idx % 4) + 1}`}
                 sx={{
                   p: { xs: 2, md: 3 },
                   borderRadius: 3,
