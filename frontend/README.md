@@ -1,21 +1,36 @@
 # Desafio Técnico - Recomendador de Produtos RD Station
 
-📌 Sobre o Projeto
+[![DEMO](https://img.shields.io/badge/Acessar%20Projeto-4CAF50?style=for-the-badge)](https://MEU-LINK.vercel.app/)
 
-Este desafio técnico da RD Station consiste em integrar a lógica de recomendação de produtos em uma aplicação web pré-existente, como parte do processo seletivo para desenvolvedor front-end.
+## 📌 Sobre o Projeto
+
+Este repositório contém a implementação do desafio técnico da RD Station, cujo objetivo é desenvolver um módulo de recomendação de produtos integrado a uma aplicação React já existente. Como parte do processo seletivo para Pessoa Engenheira de Software Frontend Júnior - React (vaga exclusiva para mulheres).
+
+## A solução inclui:
 
 - Aplicação web construída em React.js
 - Integração de dados via json-server
 - Estilização responsiva com Tailwind CSS
+- Backend simulado via json-server
+- Código modular, legível e facilmente extensível
 
-# 🎯 Objetivo
+## Objetivos do Desafio
 
-- 🔹 Criar código limpo, legível e de fácil manutenção
-- 🔹 Implementar lógica de recomendação de produtos baseada nas preferências do usuário.
-- 🔹 Garantir boa performance e cobertura de todos os casos de uso.
-- 🔹 Integrar a funcionalidade ao front-end existente de forma modular e extensível
+- 🔹 Criar uma experiência clara e fluida para seleção de preferências
+- 🔹 Implementar lógica de recomendação (Single e Multiple Products)
+- 🔹 Garantir legibilidade, reutilização e facilidade de manutenção
+- 🔹 Integrar o serviço ao frontend existente de forma não intrusiva
+- 🔹 Tratar empates e diferentes categorias de preferências
 
-# 🛠 Tecnologias Utilizadas
+# Demonstração
+
+![Demonstração do Projeto](./public/desktop2.gif)
+
+<p align="center">
+  <img src="./public/mobile.gif" alt="Demonstração do Projeto" width="300" />
+</p>
+
+## Tecnologias Utilizadas
 
 | Tecnologia                    | Função                  |
 | ----------------------------- | ----------------------- |
@@ -25,35 +40,57 @@ Este desafio técnico da RD Station consiste em integrar a lógica de recomenda�
 | Node.js versão 18 ou superior | Ambiente de execução    |
 | Yarn                          | Gerenciador de pacotes  |
 
-# ⚙ Requisitos Funcionais do desafio
+# ⚙ Requisitos Funcionais
 
-- Receber preferências do usuário via formulário
-- Retornar recomendações conforme as preferências selecionadas
-- Modo SingleProduct: retorna um produto
-- Modo MultipleProducts: retorna lista de produtos
-- Em caso de empate, retornar o último produto válido
-- Lidar com diferentes tipos de preferências
-- Código modular, legível e extensível
+- Receber preferências e funcionalidades via formulário
+- Recomendar produtos com base nos critérios informados
+- Modo SingleProduct: retorna um único produto
+- Modo MultipleProducts: retorna uma lista
+- Em empates, retorna o último item válido
+- Lidar com múltiplos tipos de preferências
+- Organização modular e extensível do código
 
-# Como Executar o Projeto
+## Critérios de Aceite
+
+1. Formulário funcional
+2. Regras de recomendação implementadas
+3. Suporte aos dois modos (individual e múltiplo)
+4. Empate resolvido corretamente
+5. Código limpo, reaproveitável e bem isolado
+6. Facilidade de manutenção e extensões futuras
+
+## UI/UX — Melhorias Adicionais
+
+- Layout refinado com Tailwind + Glassmorphism
+- Temas claro/escuro (switch integrado)
+- Responsividade aprimorada para telas pequenas
+- Logo e identidade visual inspirada na RD Station
+
+## Possíveis Melhorias Futuras
+
+- Deixar o header estático (sticky)
+- Manter o cabeçalho fixo no topo melhora a navegação e garante acesso constante ao seletor de tema e elementos principais da interface, especialmente em telas menores.
+- Estilizar a cor dos checkboxes
+
+## Como Executar o Projeto
 
 Pré-requisitos
 Node.js versão 18.3 ou superior
 Yarn instalado
 
-# Instalar dependências
+## Instalar dependências
 
 ```bash
 yarn install
 ```
 
-# Execute o script de instalação:
+## Execute o script de instalação:
 
 ```bash
 ./install.sh
 ```
 
-# Executando o Projeto
+## Executando o Projeto
 
 #### Frontend e Backend
 
@@ -86,33 +123,13 @@ A aplicação disponível em:
 | `yarn test:frontend`          | Executa os testes unitários               |
 | `yarn test:coverage:frontend` | Executa testes com cobertura              |
 
-# Layout - Contemplando Theme Claro / Theme Escuro
+### Integração Contínua
 
-![Screenshot tema claro](./.github/demo/screen.png)
-![Screenshot tema escuro](./.github/demo/screen-dark.png)
-![Screenshot recomendação](./.github/demo/recomendacao-unica.png)
-![Screenshot tema claro](./.github/demo/recomendacao-multi.png)
+O projeto utiliza **GitHub Actions** para:
 
-## 🎯 Critérios de Aceite
-
-1. Receber preferências do usuário via formulário
-2. Retornar recomendações baseadas nas preferências
-3. Modo "SingleProduct": retornar um produto
-4. Modo "MultipleProducts": retornar lista de produtos
-5. Em caso de empate, retornar o último produto válido
-6. Lidar com diferentes tipos de preferências
-7. Serviço modular e extensível
-
-## 🎨 Critérios Extras - UI/UX
-
-- Melhorias de layout e tela no geral
-- Aplicar RD Station fontes (DM Sans e RedHatDisplay)
-- Criar um switch para escolha de tema
-- Adicionar logo da RD Station no layout
-
-### Integração Contínua (GitHub Actions)
-
-O projeto utiliza **GitHub Actions** para automatizar verificações de qualidade a cada push ou pull request.
+- Execução automática de testes
+- Verificação de build
+- Garantia de qualidade a cada push ou PR
 
 ### Executando os Testes
 
