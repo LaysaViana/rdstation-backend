@@ -1,1 +1,0 @@
-export { SmallBadge } from './SmallBadge';

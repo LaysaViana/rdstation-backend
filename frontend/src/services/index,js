@@ -1,3 +1,0 @@
-export * from "./apiClienteServices";
-export * from "./product.service";
-export * from "./recommendation.service";

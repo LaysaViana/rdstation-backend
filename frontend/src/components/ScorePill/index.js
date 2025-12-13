@@ -1,1 +1,0 @@
-export { ScorePill } from './ScorePill';
