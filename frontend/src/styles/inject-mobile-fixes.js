@@ -44,10 +44,6 @@ const css = `
     -webkit-overflow-scrolling: touch;
   }
 
-  .testimonial-box {
-    display: none !important;
-  }
-
   .app-header { padding: 8px 0 !important; }
   .header-logo { height: 32px !important; max-width: 160px !important; }
   .cta-button { padding: 10px 18px !important; font-size: 0.95rem !important; }
