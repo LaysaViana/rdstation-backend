@@ -1,6 +1,6 @@
 # Desafio Técnico - Recomendador de Produtos RD Station
 
-[![DEMO](https://img.shields.io/badge/Acessar%20Projeto-4CAF50?style=for-the-badge)](https://MEU-LINK.vercel.app/)
+[![DEMO](https://img.shields.io/badge/Acessar%20Projeto-4CAF50?style=for-the-badge)](https://rdstation-technical-challenge-front.vercel.app/)
 
 ## 📌 Sobre o Projeto
 
