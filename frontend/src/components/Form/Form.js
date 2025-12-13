@@ -96,20 +96,22 @@ export default function Form({ onFormSubmit }) {
             </div>
           </div>
 
-          <div className="glass-card inner h-full flex items-center justify-center card-info testimonial-box">
+          <div className="glass-card inner h-auto md:h-full md:flex md:items-center md:justify-center card-info testimonial-box">
             <div className="text-center px-4">
               <Typography
                 variant="body2"
-                className="testimonial-text"
+                className="testimonial-text break-words"
                 sx={{ color: 'var(--muted)', lineHeight: 1.5 }}
               >
                 <FormatQuoteIcon
                   color="inherit"
                   sx={{
                     fontSize: 32,
-                    verticalAlign: 'middle',
+                    flexShrink: 0,
                     mr: 1,
                     opacity: 0.35,
+                    color: 'var(--muted)',
+                    verticalAlign: 'middle',
                     color: 'var(--muted)',
                     '& path': { fill: 'currentColor' },
                   }}
