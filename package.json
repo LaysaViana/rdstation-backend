@@ -6,7 +6,7 @@
     "frontend"
   ],
   "scripts": {
-    "start": "lerna run start",
+"start": "json-server --watch db.json --port $PORT",
     "start:frontend": "cd frontend && npm start",
     "start:backend": "cd backend && npm start",
     "dev": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
