@@ -1,11 +1,6 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "json-server": "^1.0.0-beta.3"
+    "start": "cd backend && npm install && npm start"
   }
 }
